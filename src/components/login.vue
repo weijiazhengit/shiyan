@@ -6,13 +6,17 @@
                :model="login_form">
         <el-form-item prop="username">
           <el-input v-model="login_form.username"
+                    prefix-icon="el-icon-user-solid"
+                    auto-complete="on"
                     clearable
                     placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="login_form.password"
+                    prefix-icon="el-icon-lock"
                     type="password"
                     show-password
+                    auto-complete="on"
                     clearable
                     placeholder="请输入密码"></el-input>
         </el-form-item>
@@ -50,11 +54,18 @@ export default {
     };
   },
   methods: {
-    async enter () {
-      const { data: res } = await this.$http.get('example/1616391901012')
-      window.localStorage.setItem("token", res.token);
-      this.loginy()
-      this.$router.push("/home").catch(() => { })
+    enter () {
+      this.$refs.login_form.validate(async vilde => {
+        console.log(vilde);
+        if (!vilde) return
+        const { data: res } = await this.$http.get('example/1616391901012')
+        console.log(res);
+        window.localStorage.setItem("token", res.token)
+        this.$slots.token = res.token
+        this.loginy()
+        this.$router.push("/home").catch(() => { })
+      })
+
     },
     enroll () {
       console.log(456);
