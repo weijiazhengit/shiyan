@@ -29,7 +29,9 @@
         </template>
 
       </el-form>
+
     </div>
+
   </div>
 </template>
 
@@ -61,9 +63,15 @@ export default {
         const { data: res } = await this.$http.get('example/1616391901012')
         console.log(res);
         window.localStorage.setItem("token", res.token)
+        window.sessionStorage.setItem('token', res.token)
         this.$slots.token = res.token
+        var a = window.localStorage.token
         this.loginy()
-        this.$router.push("/home").catch(() => { })
+        if (a) {
+          console.log(12345);
+          this.$router.push("/home").catch(() => { })
+        }
+
       })
 
     },

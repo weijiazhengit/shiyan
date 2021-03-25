@@ -21,6 +21,10 @@
                  class="video-js vjs-default-skin vjs-big-play-centered">
             <source>
           </video>
+
+          <div class="a">
+            异常台面
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -154,5 +158,25 @@ export default {
 .vjs-paused .vjs-big-play-button,
 .vjs-paused.vjs-has-started .vjs-big-play-button {
   display: block;
+}
+
+.a {
+  margin-top: 30px;
+  box-sizing: border-box;
+  width: 110px;
+  height: 30px;
+  border-radius: 2px;
+  background-image: linear-gradient(
+    -90deg,
+    rgba(0, 34, 66, 1) 0%,
+    rgba(67, 198, 172, 1) 54%,
+    rgba(0, 34, 66, 1) 100%
+  );
+  font-weight: bold;
+  font-family: Microsoft YaHei;
+  color: #fff;
+  font-size: 20px;
+  line-height: 30px;
+  position: relative;
 }
 </style>

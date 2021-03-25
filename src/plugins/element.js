@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Button,   MessageBox,  Message,Container,Aside,Main,Header ,Form ,FormItem ,Input ,Select,Option} from "element-ui";
+import { Button, MessageBox,  Message,Container,Aside,Main,Header ,Form ,FormItem ,Input ,Select,Option} from "element-ui";
 
 Vue.use(Button);
 Vue.use(Container);
@@ -13,3 +13,4 @@ Vue.use(Select);
 Vue.use(Option); 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
+
