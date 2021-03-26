@@ -1,12 +1,50 @@
 <template>
   <div>
     <el-container class="container">
-      <el-header>Header</el-header>
+      <el-header height="80px">
+        <el-row :gutter="10"
+                type="flex"
+                justify="end">
+          <el-col :span="6"
+                  style=" text-align : end; margin-right: 20px;">
+            <span>欢迎你 ！ {{$store.state.username}}</span>
+          </el-col>
+          <el-col :span="2">
+            <el-button type="warning "
+                       @click="out()">退出</el-button>
+          </el-col>
+        </el-row>
+      </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
 
+        <el-aside :width="isCollapse ? '64px' : '170px'">
+          <template>
+            <div class="collapse"
+                 @click="collapse">
+              <i :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold' "></i>
+            </div>
+          </template>
+          <el-menu :default-active="$router.path"
+                   background-color="#333744"
+                   text-color="#fff"
+                   active-text-color="#ffd04b"
+                   router
+                   :unique-opened="true"
+                   :collapse="isCollapse"
+                   :collapse-transition="false">
+            <el-submenu index="/list">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">列表</span>
+              </template>
+              <el-menu-item index="/list">列表</el-menu-item>
+            </el-submenu>
+
+          </el-menu>
+        </el-aside>
         <el-main>
-          <el-select v-model="value"
+          <router-view></router-view>
+          <!-- <el-select v-model="value"
                      placeholder="请选择"
                      @change="cut(value)">
             <el-option v-for="item in options"
@@ -24,7 +62,7 @@
 
           <div class="a">
             异常台面
-          </div>
+          </div> -->
         </el-main>
       </el-container>
     </el-container>
@@ -35,6 +73,7 @@
 export default {
   data () {
     return {
+      isCollapse: false,
       options: [{
         value: 'CCTV1高清',
         label: 'CCTV1高清'
@@ -52,7 +91,7 @@ export default {
     }
   },
   mounted () {
-    this.initVideo();
+    // this.initVideo();
   },
   methods: {
     initVideo () {
@@ -95,8 +134,32 @@ export default {
         myPlayer.load("rtmp://live.hkstv.hk.lxdns.com/live/hks1");
         myPlayer.play();
       }
+    },
+    out () {
+      this.$message({
+        message: "已退出该账户",
+        type: "warning"
+      })
+      window.localStorage.removeItem('token');
+      this.$router.push("/login").catch(() => { })
+      // window.location.reload();
+    },
+    a () {
+      if (window.localStorage.token) {
+        this.$store.dispatch('axiosadduser', window.localStorage.token)
+      }
+    },
+    collapse () {
+      this.isCollapse = !this.isCollapse
+    },
+    tokenchange (e) {
+      console.log(e);
+      this.$store.commit("tokenchange", e)
     }
-  }
+  },
+  created () {
+    this.a()
+  },
 }
 </script>
 
@@ -111,10 +174,15 @@ export default {
   user-select: none; /* CSS3属性 */
 }
 .el-header {
-  background-color: #b3c0d1;
-  color: #333;
+  // background-color: #b3c0d1;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bolder;
   text-align: center;
-  line-height: 60px;
+  line-height: 80px;
+  background-image: url("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=947212500,3732940939&fm=26&gp=0.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 
 .el-aside {
@@ -160,23 +228,15 @@ export default {
   display: block;
 }
 
-.a {
-  margin-top: 30px;
-  box-sizing: border-box;
-  width: 110px;
-  height: 30px;
-  border-radius: 2px;
-  background-image: linear-gradient(
-    -90deg,
-    rgba(0, 34, 66, 1) 0%,
-    rgba(67, 198, 172, 1) 54%,
-    rgba(0, 34, 66, 1) 100%
-  );
-  font-weight: bold;
-  font-family: Microsoft YaHei;
-  color: #fff;
+.collapse {
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
   font-size: 20px;
-  line-height: 30px;
-  position: relative;
+  font-weight: bolder;
+  cursor: pointer;
+}
+/deep/.el-submenu .el-menu-item {
+  min-width: 169px !important;
 }
 </style>

@@ -24,7 +24,7 @@
           <div class="btn_class">
             <el-button type="primary"
                        @click="enter()">登录</el-button>
-            <el-button @click="enroll()">注册</el-button>
+            <el-button @click="enroll()">清空</el-button>
           </div>
         </template>
 
@@ -59,29 +59,31 @@ export default {
     enter () {
       this.$refs.login_form.validate(async vilde => {
         console.log(vilde);
-        if (!vilde) return
-        const { data: res } = await this.$http.get('example/1616391901012')
-        console.log(res);
-        window.localStorage.setItem("token", res.token)
-        window.sessionStorage.setItem('token', res.token)
-        this.$slots.token = res.token
-        var a = window.localStorage.token
-        this.loginy()
-        if (a) {
-          console.log(12345);
-          this.$router.push("/home").catch(() => { })
+        if (!vilde) {
+          return this.warning()
         }
-
+        const { data: res } = await this.$http.get('example/1616391901012')
+        window.localStorage.setItem("token", res.token)
+        console.log(this.$store.state.token);
+        this.loginy()
+        this.$router.push("/home").catch(() => { })
       })
 
     },
     enroll () {
-      console.log(456);
+      // console.log(456);
+      this.$refs.login_form.resetFields()
     },
     loginy () {
       this.$message({
         message: "恭喜你,登陆成功!",
         type: "success"
+      })
+    },
+    warning () {
+      this.$message({
+        message: "请输入用户名/密码，进行登录！",
+        type: "warning"
       })
     }
   }
