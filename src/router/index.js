@@ -18,12 +18,26 @@ const routes = [
   {
     path: "/home",
     name: "home", 
+       redirect: '/list',
     component: () => import("../components/home.vue"),
     children:[
       {
         path:"/list",
         name:"list",
+    
         component:()=> import('../components/list/list.vue')
+      },
+      {
+        path:"/video",
+        name:"video",
+    
+        component:()=> import('../components/video/video.vue')
+      },
+      {
+        path:"/echarts",
+        name:"echarts",
+    
+        component:()=> import('../components/echarts/echarts.vue')
       }
     ]
   }
@@ -37,8 +51,7 @@ router.beforeEach((to, from, next) => {
   if(to.path === '/login'){
    next();
   }else{
-    let token = window.localStorage.token
-    console.log(token);
+    let token = window.sessionStorage.token 
     if(token === "null" || token === "" || token == undefined){
       next('/login')
     }else{

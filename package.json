@@ -10,6 +10,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "echarts": "^4.1.0",
+    "echarts-liquidfill": "^2.0.2",
+    "element-resize-detector": "^1.2.2",
     "element-ui": "^2.4.5",
     "video.js": "^7.11.4",
     "vue": "^2.6.11",
